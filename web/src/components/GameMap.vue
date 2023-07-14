@@ -1,6 +1,7 @@
 <template>
     <div ref="parent" class="gamemap">
-        <canvas ref="canvas"></canvas>
+        <!-- 使得canvas能够聚焦 -->
+        <canvas ref="canvas" tabindex="0"></canvas>
     </div>
 </template>
 
@@ -18,9 +19,10 @@ onMounted(() => {
 
 <style scoped>
 .gamemap {
-    width: 60vw;
-    height: 70vh;
-    background-color: aqua;
-    margin: 40px auto;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>

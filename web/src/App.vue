@@ -8,8 +8,8 @@ import 'bootstrap/dist/js/bootstrap';
 </script>
 
 <style>
-/* body {
+body {
     background-image: url('./assets/images/背景.png');
     background-size: cover;
-} */
+}
 </style>
