@@ -25,7 +25,6 @@ public class UpdateBotServiceImpl implements UpdateBotService {
         UserDetailImpl loginUser = (UserDetailImpl) authenticationToken.getPrincipal();
         User user = loginUser.getUser();
 
-
         int bot_id = Integer.parseInt(data.get("bot_id"));
         String title = data.get("title");
         String description = data.get("description");
