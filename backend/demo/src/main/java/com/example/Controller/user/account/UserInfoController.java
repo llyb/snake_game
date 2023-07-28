@@ -1,6 +1,6 @@
 package com.example.Controller.user.account;
 
-import com.example.Service.account.UserInfoService;
+import com.example.Service.user.account.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

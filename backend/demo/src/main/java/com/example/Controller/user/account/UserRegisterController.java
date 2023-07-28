@@ -1,6 +1,6 @@
 package com.example.Controller.user.account;
 
-import com.example.Service.account.UserRegisterService;
+import com.example.Service.user.account.UserRegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;

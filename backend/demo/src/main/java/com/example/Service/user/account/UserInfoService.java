@@ -1,4 +1,4 @@
-package com.example.Service.account;
+package com.example.Service.user.account;
 
 import java.util.Map;
 

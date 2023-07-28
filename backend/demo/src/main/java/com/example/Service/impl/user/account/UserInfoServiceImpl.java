@@ -1,6 +1,6 @@
-package com.example.Service.impl.account;
+package com.example.Service.impl.user.account;
 
-import com.example.Service.account.UserInfoService;
+import com.example.Service.user.account.UserInfoService;
 import com.example.Service.impl.utils.UserDetailImpl;
 import com.example.pojo.User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

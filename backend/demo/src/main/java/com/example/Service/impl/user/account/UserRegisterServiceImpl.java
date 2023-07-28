@@ -1,15 +1,13 @@
-package com.example.Service.impl.account;
+package com.example.Service.impl.user.account;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.Mapper.UserMapper;
-import com.example.Service.account.UserRegisterService;
+import com.example.Service.user.account.UserRegisterService;
 import com.example.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
