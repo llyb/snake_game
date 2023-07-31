@@ -34,7 +34,7 @@
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
                         >
-                            lyb
+                            {{ $store.state.user.username }}
                         </router-link>
                         <ul class="dropdown-menu">
                             <li><router-link :to="{ name: 'userbot' }" class="dropdown-item">我的Bots</router-link></li>

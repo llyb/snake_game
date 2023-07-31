@@ -4,13 +4,13 @@ import Snake from './Snake';
 
 export default class GameMap extends GameObject {
     // 实现游戏的地图界面
-    constructor(ctx, parent) {
+    constructor(ctx, parent, store) {
         super();
-
+        this.store = store;
         this.ctx = ctx;
+        this.rows = 13;
+        this.cols = 14;
         this.parent = parent;
-        this.rows = 13; // 行
-        this.cols = 14; // 列
         this.L = 0; // 初始每个方块的大小
         this.inner_walls_count = 20; // 障碍物的数量
         this.walls = []; // 存储墙的对象
@@ -75,59 +75,9 @@ export default class GameMap extends GameObject {
         });
     }
 
-    check_connectivity(g, sx, sy, tx, ty) {
-        if (sx == tx && sy == ty) return true;
-        g[sx][sy] = true;
-
-        let dx = [-1, 0, 1, 0],
-            dy = [0, 1, 0, -1];
-        for (let i = 0; i < 4; i++) {
-            let x = sx + dx[i],
-                y = sy + dy[i];
-            if (!g[x][y] && this.check_connectivity(g, x, y, tx, ty)) return true;
-        }
-
-        return false;
-    }
-
     create_walls() {
-        const g = []; // bool数组，判断当前位置是否为墙
-
-        // 初始化数组，false表示没有墙
-        for (let r = 0; r < this.rows; r++) {
-            g[r] = [];
-            for (let c = 0; c < this.cols; c++) {
-                g[r][c] = false;
-            }
-        }
-
-        // 给四周加上障碍物
-        for (let r = 0; r < this.rows; r++) {
-            g[r][0] = g[r][this.cols - 1] = true;
-        }
-        for (let c = 0; c < this.cols; c++) {
-            g[0][c] = g[this.rows - 1][c] = true;
-        }
-
-        // 随机生成障碍物
-        for (let i = 0; i < this.inner_walls_count / 2; i++) {
-            for (let j = 0; j < 1000; j++) {
-                // 为了防止有相同的出现
-                // random是一个0-1之间的数
-                let r = parseInt(Math.random() * this.rows);
-                let c = parseInt(Math.random() * this.cols);
-                // 已经有墙的位置不要在重复生成了
-                if (g[r][c] || g[this.rows - r - 1][this.cols - c - 1]) continue;
-                // 两只蛇初始位置不能有障碍物
-                if ((r == this.rows - 2 && c == 1) || (r == 1 && c == this.cols - 2)) continue;
-                g[r][c] = g[this.rows - r - 1][this.cols - c - 1] = true;
-                break;
-            }
-        }
-
-        const copy_g = JSON.parse(JSON.stringify(g));
-        if (!this.check_connectivity(copy_g, this.rows - 2, 1, 1, this.cols - 2)) return false;
-
+        const g = this.store.state.pk.gamemap;
+        console.log(g[0].length);
         // 画障碍物
         for (let r = 0; r < this.rows; r++) {
             for (let c = 0; c < this.cols; c++) {

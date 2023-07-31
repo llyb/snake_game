@@ -8,12 +8,16 @@
 <script setup>
 import GameMap from '@/assets/scripts/GameMap';
 import { ref, onMounted } from 'vue';
+import { useStore } from 'vuex';
+
+const store = useStore();
+
 // 使用两个标签绑定我们的地图和画布
 let canvas = ref('');
 let parent = ref('');
 
 onMounted(() => {
-    new GameMap(canvas.value.getContext('2d'), parent.value);
+    new GameMap(canvas.value.getContext('2d'), parent.value, store);
 });
 </script>
 
