@@ -1,11 +1,13 @@
 <template>
     <PlayGroundVue v-if="$store.state.pk.status === 'playing'" />
     <MatchGround v-if="$store.state.pk.status === 'matching'" />
+    <ResultBoard v-if="$store.state.pk.loser !== 'none'" />
 </template>
 
 <script setup>
 import PlayGroundVue from '@/components/PlayGround.vue';
 import MatchGround from '@/components/MatchGround.vue';
+import ResultBoard from '@/components/ResultBoard.vue';
 import { useStore } from 'vuex';
 import { onMounted, onUnmounted } from 'vue';
 
@@ -35,14 +37,35 @@ onMounted(() => {
         if (data.event === 'start-matching') {
             // 表示匹配成功
             store.commit('updateOpponent', {
-                username: data.opponent_username,
-                photo: data.opponent_photo,
+                opponent_username: data.opponent_username,
+                opponent_photo: data.opponent_photo,
             });
             setTimeout(() => {
+                // 等待2s后进入游戏
                 store.commit('updateStatus', 'playing');
-            }, 2000);
-            store.commit('updateGameMap', data.gamemap);
-            console.log(store.state.pk.gamemap);
+            }, 200);
+            store.commit('updateGame', data.game);
+        } else if (data.event === 'move') {
+            // 游戏还在继续，设置前端两条蛇的移动
+            const game = store.state.pk.gameObject;
+            const [snake0, snake1] = game.snakes;
+            // 先左下，后右上，这里和后端是对应的
+            snake0.set_direction(data.a_direction);
+            snake1.set_direction(data.b_direction);
+        } else if (data.event === 'result') {
+            // 游戏结束
+            const game = store.state.pk.gameObject;
+            const [snake0, snake1] = game.snakes;
+
+            store.commit('updateLoser', data.loser); // 更新对局情况
+
+            if (data.loser === 'all' || data.loser === 'A') {
+                snake0.status = 'die';
+            }
+
+            if (data.loser === 'all' || data.loser === 'B') {
+                snake1.status = 'die';
+            }
         }
     };
 

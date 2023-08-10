@@ -1,6 +1,7 @@
 import GameObject from './GameObject';
 import Wall from '@/assets/scripts/Wall';
 import Snake from './Snake';
+import { useStore } from 'vuex';
 
 export default class GameMap extends GameObject {
     // 实现游戏的地图界面
@@ -19,6 +20,8 @@ export default class GameMap extends GameObject {
             new Snake({ id: 0, color: '#4876EC', r: this.rows - 2, c: 1 }, this),
             new Snake({ id: 1, color: '#F94848', r: 1, c: this.cols - 2 }, this),
         ];
+
+        this.store = useStore();
     }
 
     check_valid(cell) {
@@ -60,24 +63,27 @@ export default class GameMap extends GameObject {
     // 键盘监听事件
     addEventListener_keys() {
         this.ctx.canvas.focus(); // 使canvas聚焦
-
-        const [snake1, snake2] = this.snakes;
+        let d = -1;
         this.ctx.canvas.addEventListener('keydown', (e) => {
-            console.log(e.key);
-            if (e.key === 'w') snake1.set_direction(0);
-            else if (e.key === 'd') snake1.set_direction(1);
-            else if (e.key === 's') snake1.set_direction(2);
-            else if (e.key === 'a') snake1.set_direction(3);
-            else if (e.key === 'ArrowUp') snake2.set_direction(0);
-            else if (e.key === 'ArrowRight') snake2.set_direction(1);
-            else if (e.key === 'ArrowDown') snake2.set_direction(2);
-            else if (e.key === 'ArrowLeft') snake2.set_direction(3);
+            if (e.key === 'w') d = 0;
+            else if (e.key === 'd') d = 1;
+            else if (e.key === 's') d = 2;
+            else if (e.key === 'a') d = 3;
+
+            // 将当前用户的移动情况传递给自己的socket
+            if (d >= 0) {
+                this.store.state.pk.socket.send(
+                    JSON.stringify({
+                        event: 'move',
+                        direction: d,
+                    })
+                );
+            }
         });
     }
 
     create_walls() {
         const g = this.store.state.pk.gamemap;
-        console.log(g[0].length);
         // 画障碍物
         for (let r = 0; r < this.rows; r++) {
             for (let c = 0; c < this.cols; c++) {

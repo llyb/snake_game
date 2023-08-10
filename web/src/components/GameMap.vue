@@ -17,7 +17,7 @@ let canvas = ref('');
 let parent = ref('');
 
 onMounted(() => {
-    new GameMap(canvas.value.getContext('2d'), parent.value, store);
+    store.commit('updategameObject', new GameMap(canvas.value.getContext('2d'), parent.value, store));
 });
 </script>
 
