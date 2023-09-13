@@ -125,6 +125,7 @@
                                         >
                                             修改
                                         </button>
+
                                         <!-- Modal -->
                                         <div class="modal fade" :id="'bot-update-' + bot.id" tabindex="-1">
                                             <div class="modal-dialog modal-xl">
@@ -171,7 +172,7 @@
                                                                     >代码</label
                                                                 >
                                                                 <VAceEditor
-                                                                    v-model="botupdate.content"
+                                                                    v-model:value="botupdate.content"
                                                                     @init="editorInit"
                                                                     lang="c_cpp"
                                                                     theme="textmate"
@@ -280,6 +281,7 @@ const getBots = () => {
 
 getBots();
 
+// 添加bot
 const addbot = () => {
     $.ajax({
         url: 'http://localhost:3000/user/bot/add/',
@@ -295,9 +297,6 @@ const addbot = () => {
         success(resp) {
             // 当我们成功创建bot后关闭模态框
             if (resp.error_message === 'success') {
-                botadd.title = '';
-                botadd.content = '';
-                botadd.description = '';
                 Modal.getInstance('#bot-create').hide();
                 getBots();
             } else {
@@ -310,6 +309,7 @@ const addbot = () => {
     });
 };
 
+// 删除bot
 const botdelete = (botId) => {
     $.ajax({
         url: 'http://localhost:3000/user/bot/delete',
@@ -329,6 +329,7 @@ const botdelete = (botId) => {
     });
 };
 
+// 更新bot
 const updatebot = (bot) => {
     console.log(botupdate.title + '\n' + botupdate.content + '\n' + botupdate.description + '\n' + bot.id);
     $.ajax({
@@ -345,10 +346,6 @@ const updatebot = (bot) => {
         },
         success(resp) {
             if (resp.error_message === 'success') {
-                botupdate.title = '';
-                botupdate.content = '';
-                botupdate.description = '';
-                botupdate.error_message = '';
                 // 如果能够成功关闭模态框
                 Modal.getInstance('#bot-update-' + bot.id).hide();
                 getBots(); // 重新获取数据

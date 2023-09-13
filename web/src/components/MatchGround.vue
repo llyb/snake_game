@@ -1,7 +1,7 @@
 <template>
     <div class="matchground">
         <div class="row">
-            <div class="col-6">
+            <div class="col-4">
                 <div class="user-photo">
                     <img :src="$store.state.user.photo" alt="" />
                 </div>
@@ -9,7 +9,15 @@
                     {{ $store.state.user.username }}
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-4">
+                <div class="user-bot">
+                    <select v-model="selected_bot" class="form-select" aria-label="Default select example">
+                        <option value="-1" selected>亲自出马</option>
+                        <option v-for="bot in bots" :key="bot.id" :value="bot.id">{{ bot.title }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
                 <div class="user-photo">
                     <img :src="$store.state.pk.opponent_photo" alt="" />
                 </div>
@@ -27,7 +35,10 @@
 <script setup>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
+import $ from 'jquery';
 
+let bots = ref([]);
+let selected_bot = ref('-1');
 let btn_info = ref('开始匹配');
 const store = useStore();
 
@@ -37,6 +48,7 @@ const click_match_btn = () => {
         store.state.pk.socket.send(
             JSON.stringify({
                 event: 'start-matching',
+                bot_id: selected_bot.value,
             })
         );
     } else {
@@ -48,6 +60,24 @@ const click_match_btn = () => {
         );
     }
 };
+
+//从云端拉取Bot信息
+const getBots = () => {
+    $.ajax({
+        url: 'http://localhost:3000/user/bot/getlist',
+        type: 'get',
+        headers: {
+            Authorization: 'Bearer ' + store.state.user.token,
+        },
+        success(resp) {
+            bots.value = resp;
+        },
+        error(resp) {
+            console.log(resp);
+        },
+    });
+};
+getBots();
 </script>
 
 <style>
@@ -74,5 +104,12 @@ div.user-username {
     font-weight: 600;
     color: white;
     padding-top: 2vh;
+}
+div.user-bot {
+    padding-top: 22vh;
+}
+div.user-bot > select {
+    width: 70%;
+    margin: 0 auto;
 }
 </style>

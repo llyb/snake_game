@@ -13,7 +13,8 @@
 	<modules>
 		<module>matchingsystem</module>
 		<module>backend</module>
-	</modules>
+        <module>botrunningsystem</module>
+    </modules>
 
 	<groupId>com.example</groupId>
 	<artifactId>backendcloud</artifactId>

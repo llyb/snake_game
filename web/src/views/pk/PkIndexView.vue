@@ -14,6 +14,8 @@ import { onMounted, onUnmounted } from 'vue';
 const store = useStore();
 const socketUrl = `ws://127.0.0.1:3000/websocket/${store.state.user.token}`;
 
+store.commit('updateLoser', 'none'); // 每次进入页面前都要清空之前的对局状态
+
 let socket = null;
 
 onMounted(() => {
@@ -49,7 +51,7 @@ onMounted(() => {
             // 游戏还在继续，设置前端两条蛇的移动
             const game = store.state.pk.gameObject;
             const [snake0, snake1] = game.snakes;
-            // 先左下，后右上，这里和后端是对应的
+            // 先传左下，后传右上，这里和后端是对应的
             snake0.set_direction(data.a_direction);
             snake1.set_direction(data.b_direction);
         } else if (data.event === 'result') {

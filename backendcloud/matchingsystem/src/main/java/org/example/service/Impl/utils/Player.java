@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class Player {
     private Integer user_id;
     private Integer rating;
+    private Integer bot_id;
     private Integer waitingTime; // 该名玩家的等待时间
 }

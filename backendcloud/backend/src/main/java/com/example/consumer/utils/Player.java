@@ -13,6 +13,8 @@ import java.util.List;
 public class Player {
     // 玩家的id和其实坐标
     private Integer id;
+    private Integer bot_id; // 如果botid为-1说明玩家没有选择bot出战，否则选择的是bot
+    private String bot_code;
     private Integer sx;
     private Integer sy;
     private List<Integer> steps; // 用来存储玩家的操作

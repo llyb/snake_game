@@ -2,31 +2,46 @@ package com.example.consumer.utils;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.example.consumer.WebSocketServer;
+import com.example.pojo.Bot;
 import com.example.pojo.Record;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Game extends Thread {
-    private int [][] g; // 地图对象
-    private int rows, cols; // 地图的长和宽
-    private int inner_walls_count; // 墙的数量
-    private static int[] dx = {-1, 0, 1, 0}, dy = {0, 1, 0, -1};
-    private Player playerA, playerB;
+    private final int [][] g; // 地图对象
+    private final int rows, cols;// 地图的长和宽
+    private final int inner_walls_count; // 墙的数量
+    private static final int[] dx = {-1, 0, 1, 0}, dy = {0, 1, 0, -1};
+    private final Player playerA, playerB;
     // 定义两名玩家的下一步操作
     private Integer nextStepA = null;
     private Integer nextStepB = null;
-    private ReentrantLock lock = new ReentrantLock();
+    private final ReentrantLock lock = new ReentrantLock();
     private String status = "playing"; // playing、finished
     private String loser = ""; // all A B 表示谁输了
-    public Game(int rows, int cols, int inner_walls_count, Integer idA, Integer idB) { // 在一对中，前面的是左下角的，后面的是右上角的
+    private final static String addBotUrl = "http://127.0.0.1:3002/bot/add/";
+    public Game(int rows, int cols, int inner_walls_count, Integer idA, Bot a_bot, Integer idB, Bot b_bot) { // 在一对中，前面的是左下角的，后面的是右上角的
         this.cols = cols;
         this.rows = rows;
         this.g = new int[rows][cols];
         this.inner_walls_count = inner_walls_count;
-        this.playerA = new Player(idA, this.rows - 2, 1, new ArrayList<>()); // a是左下角的蛇，b是右上角的蛇。这里和前端是对应的先左下，后右上
-        this.playerB = new Player(idB,1, this.cols - 2, new ArrayList<>());
+
+        Integer a_bot_id = -1, b_bot_id = -1;
+        String a_bot_code = "", b_bot_code = "";
+        if (a_bot != null) {
+            a_bot_id = a_bot.getId();
+            a_bot_code = a_bot.getContent();
+        }
+        if (b_bot != null) {
+            b_bot_id = b_bot.getId();
+            b_bot_code = b_bot.getContent();
+        }
+        this.playerA = new Player(idA, a_bot_id, a_bot_code, this.rows - 2, 1, new ArrayList<>()); // a是左下角的蛇，b是右上角的蛇。这里和前端是对应的先左下，后右上
+        this.playerB = new Player(idB, b_bot_id, b_bot_code, 1, this.cols - 2, new ArrayList<>());
     }
 
     public Player getPlayerA() {
@@ -118,8 +133,43 @@ public class Game extends Thread {
         }
     }
 
+    String getInput(Player player) { // 将地图信息进行封装
+        Player me, you;
+        if (player.getId().equals(playerA.getId())) {
+            me = playerA;
+            you = playerB;
+        } else {
+            me = playerB;
+            you = playerA;
+        }
+
+        return getMapString() + "#" +
+                me.getSx() + "#" +
+                me.getSy() + "#(" +
+                me.getStepsString() + ")#" +
+                you.getSx() + "#" +
+                you.getSy() + "#(" +
+                you.getStepsString() + ")#";
+    }
+
+    private void sendBotCode(Player player) { // 将当前玩家bot的代码发送到代码执行的位置
+        // 首先判断是机器操作还是人来操作
+        if (player.getBot_id().equals(-1)) return; // 说明是人操作直接进行返回
+//        System.out.println("bot_id：" + player.getId().toString() + "bot code：" + player.getBot_code() + "当前局面信息：" + getInput(player));
+        // 否则将代码发送到代码执行微服务中
+        MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
+        data.add("user_id", player.getId().toString());
+        data.add("bot_code", player.getBot_code());
+        data.add("input", getInput(player)); // 存储当前的局面信息
+        WebSocketServer.restTemplate.postForObject(addBotUrl, data, String.class);
+    }
+
     private boolean nextStep() { // 等待两名玩家的下一步操作
-        // 我们可以等待5秒钟，如果用户没有输入则输
+        // 机器输入的接口，人输入的接口在WebsocketServer部分
+        sendBotCode(playerA);
+        sendBotCode(playerB);
+
+        // 我们可以等待5秒钟，如果用户或者是机器没有输入则输
         for (int i = 0; i < 50; i ++) {
             try {
                 Thread.sleep(100);
@@ -259,17 +309,16 @@ public class Game extends Thread {
                 lock.lock();
                 try {
                     this.status = "finished"; // 当前线程的游戏结束
-                    if (nextStepA == null) {
+                    if (nextStepA == null &&nextStepB == null) {
+                        this.loser = "all";
+                    } else if(nextStepA == null) {
                         this.loser = "A";
                     } else if(nextStepB == null) {
                         this.loser = "B";
-                    } else if(nextStepA == null && nextStepB == null) {
-                        this.loser = "all";
                     }
                 } finally {
                     lock.unlock();
                 }
-
                 try {
                     sendResult();
                 } catch (IOException e) {

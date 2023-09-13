@@ -21,7 +21,7 @@ public class MatchingPool extends Thread { // 这里实现对玩家进行匹配�
     }
     private final static String startGameUrl = "http://127.0.0.1:3000/pk/start/game/";
 
-    public void addPlayer(Integer user_id, Integer rating) { // 在匹配池中添加一名玩家
+    public void addPlayer(Integer user_id, Integer bot_id, Integer rating) { // 在匹配池中添加一名玩家
         lock.lock();
         try {
             for (Player player : players) {
@@ -29,7 +29,7 @@ public class MatchingPool extends Thread { // 这里实现对玩家进行匹配�
                     players.remove(player);
                 }
             }
-            players.add(new Player(user_id, rating, 0));
+            players.add(new Player(user_id, rating, bot_id, 0));
         } finally {
             lock.unlock();
         }
@@ -66,7 +66,9 @@ public class MatchingPool extends Thread { // 这里实现对玩家进行匹配�
         System.out.println("send result: " + a  + ' ' + b);
         MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
         data.add("a_id", a.getUser_id().toString());
+        data.add("a_bot_id", a.getBot_id().toString());
         data.add("b_id", b.getUser_id().toString());
+        data.add("b_bot_id", b.getBot_id().toString());
         restTemplate.postForObject(startGameUrl, data, String.class); // 最后一个参数是返回值类型的反射
     }
 

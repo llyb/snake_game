@@ -1,10 +1,12 @@
 package com.example.consumer;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.example.Mapper.BotMapper;
 import com.example.Mapper.RecordMapper;
 import com.example.Mapper.UserMapper;
 import com.example.consumer.utils.Game;
 import com.example.consumer.utils.JwtAuthentication;
+import com.example.pojo.Bot;
 import com.example.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,11 +18,9 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 @Component
 @ServerEndpoint("/websocket/{token}")  // 注意不要以'/'结尾
@@ -30,8 +30,9 @@ public class WebSocketServer {
     private User user;
     private static UserMapper userMapper;
     public static RecordMapper recordMapper;
-    private static RestTemplate restTemplate;
-    private Game game = null; // 用于存储当前的游戏信息
+    private static BotMapper botMapper;
+    public static RestTemplate restTemplate;
+    public Game game = null; // 用于存储当前的游戏信息
     @Autowired
     public void setUserMapper(UserMapper userMapper) {
         WebSocketServer.userMapper = userMapper;
@@ -41,6 +42,10 @@ public class WebSocketServer {
         WebSocketServer.recordMapper = recordMapper;
     }
     @Autowired
+    public void setBotMapper(BotMapper botMapper) {
+        WebSocketServer.botMapper = botMapper;
+    }
+    @Autowired
     public void setRestTemplate(RestTemplate restTemplate) {
         WebSocketServer.restTemplate = restTemplate;
     }
@@ -48,12 +53,15 @@ public class WebSocketServer {
     private final String addPlayerUrl = "http://127.0.0.1:3001/add/match/player/";
     private final String removePlayerUrl = "http://127.0.0.1:3001/remove/match/player/";
 
-    public static void startGame(Integer aId, Integer bId) throws IOException {
+    public static void startGame(Integer aId, Integer a_bot_id, Integer bId, Integer b_bot_id) throws IOException {
         User a = userMapper.selectById(aId);
         User b = userMapper.selectById(bId);
 
+        Bot a_bot = botMapper.selectById(a_bot_id);
+        Bot b_bot = botMapper.selectById(b_bot_id);
+
         // 匹配成功向两名玩家发送消息
-        Game game = new Game(13, 14, 20, a.getId(), b.getId());
+        Game game = new Game(13, 14, 20, a.getId(), a_bot, b.getId(), b_bot);
         game.createGameMap(); // 首先创建地图
         game.start(); // 启动一个新的线程
 
@@ -90,11 +98,12 @@ public class WebSocketServer {
             users.get(b.getId()).sendMessage(respB.toJSONString()); // 找到用户b并发送信息
     }
 
-    private void startMatching() throws IOException { // 开始匹配，向我们的matchingsystem发送一个请求添加一名玩家到匹配池中
+    private void startMatching(Integer bot_id) throws IOException { // 开始匹配，向我们的matchingsystem发送一个请求添加一名玩家到匹配池中
         System.out.println("start matching");
         MultiValueMap<String, String> data = new LinkedMultiValueMap();
         data.add("user_id", user.getId().toString());
         data.add("rating", user.getRating().toString());
+        data.add("bot_id", bot_id.toString());
         // 将当前玩家发送到匹配系统中
         restTemplate.postForObject(addPlayerUrl, data, String.class); // 最后一个参数填返回值的反射
     }
@@ -108,16 +117,18 @@ public class WebSocketServer {
 
     private void move(Integer direction) { // 设定两名玩家的游戏方向
         if (Objects.equals(game.getPlayerA().getId(), user.getId())) { // 说明当前用户是A
-            game.setnextStepA(direction);
+            if (!game.getPlayerA().getBot_id().equals(-1)) // 如果不是机器操作才传入人的操作
+                game.setnextStepA(direction);
         } else if(Objects.equals(game.getPlayerB().getId(), user.getId())) {
-            game.setNextStepB(direction);
+            if (!game.getPlayerB().getBot_id().equals(-1))
+                game.setNextStepB(direction);
         }
     }
 
     @OnOpen
     public void onOpen(Session session, @PathParam("token") String token) throws IOException {
         this.session = session;
-        // 建立连接，先使用userid进行验证身份，后面再使用token验证
+        // 建立连接，使用jwt-token进行身份验证
         int userId = JwtAuthentication.getUserId(token);
         this.user = userMapper.selectById(userId);
         if(this.user != null) { // 说明验证成功
@@ -144,7 +155,8 @@ public class WebSocketServer {
         JSONObject data = JSONObject.parseObject(message); // 将json字符串转化为json对象进而得到相关信息
         String event = data.getString("event"); // 将前端传来的数据进行解析
         if("start-matching".equals(event)) {
-            startMatching();
+            System.out.println(data.getInteger("bot_id"));
+            startMatching(data.getInteger("bot_id"));
         } else if("move".equals(event)) {
 //            System.out.println(event + " " + data.getInteger("direction"));
             move(data.getInteger("direction"));
