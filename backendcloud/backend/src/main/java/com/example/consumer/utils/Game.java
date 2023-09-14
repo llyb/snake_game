@@ -165,6 +165,12 @@ public class Game extends Thread {
     }
 
     private boolean nextStep() { // 等待两名玩家的下一步操作
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         // 机器输入的接口，人输入的接口在WebsocketServer部分
         sendBotCode(playerA);
         sendBotCode(playerB);
@@ -202,7 +208,9 @@ public class Game extends Thread {
         for (int i = 0; i < rows; i ++) {
             for (int j = 0; j < cols; j ++) {
                 res.append(g[i][j]);
+                System.out.printf("%d ", g[i][j]);
             }
+            System.out.println("");
         }
         return res.toString();
     }

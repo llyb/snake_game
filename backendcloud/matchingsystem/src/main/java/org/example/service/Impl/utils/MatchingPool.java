@@ -113,7 +113,6 @@ public class MatchingPool extends Thread { // 这里实现对玩家进行匹配�
                 e.printStackTrace();
                 break;
             }
-
         }
     }
 }

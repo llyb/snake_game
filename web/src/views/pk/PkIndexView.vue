@@ -43,7 +43,7 @@ onMounted(() => {
                 opponent_photo: data.opponent_photo,
             });
             setTimeout(() => {
-                // 等待2s后进入游戏
+                // 等待0.2s后进入游戏
                 store.commit('updateStatus', 'playing');
             }, 200);
             store.commit('updateGame', data.game);
@@ -58,9 +58,7 @@ onMounted(() => {
             // 游戏结束
             const game = store.state.pk.gameObject;
             const [snake0, snake1] = game.snakes;
-
-            store.commit('updateLoser', data.loser); // 更新对局情况
-
+            console.log(game.snakes);
             if (data.loser === 'all' || data.loser === 'A') {
                 snake0.status = 'die';
             }
@@ -68,6 +66,8 @@ onMounted(() => {
             if (data.loser === 'all' || data.loser === 'B') {
                 snake1.status = 'die';
             }
+
+            store.commit('updateLoser', data.loser); // 更新对局情况
         }
     };
 

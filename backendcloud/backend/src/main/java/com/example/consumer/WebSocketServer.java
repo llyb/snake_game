@@ -117,10 +117,10 @@ public class WebSocketServer {
 
     private void move(Integer direction) { // 设定两名玩家的游戏方向
         if (Objects.equals(game.getPlayerA().getId(), user.getId())) { // 说明当前用户是A
-            if (!game.getPlayerA().getBot_id().equals(-1)) // 如果不是机器操作才传入人的操作
+            if (game.getPlayerA().getBot_id().equals(-1)) // -1表示是人操作
                 game.setnextStepA(direction);
         } else if(Objects.equals(game.getPlayerB().getId(), user.getId())) {
-            if (!game.getPlayerB().getBot_id().equals(-1))
+            if (game.getPlayerB().getBot_id().equals(-1))
                 game.setNextStepB(direction);
         }
     }
