@@ -1,5 +1,6 @@
 package com.example.Service.impl.user.bot;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.Mapper.BotMapper;
 import com.example.Service.user.bot.AddBotService;
 import com.example.Service.impl.utils.UserDetailImpl;
@@ -20,7 +21,6 @@ public class AddBotServiceImpl implements AddBotService {
     private BotMapper botMapper;
     @Override
     public Map<String, String> addbot(Map<String, String> data) {
-
         UsernamePasswordAuthenticationToken authenticationToken =
                 (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         UserDetailImpl loginUser = (UserDetailImpl) authenticationToken.getPrincipal();
@@ -59,6 +59,13 @@ public class AddBotServiceImpl implements AddBotService {
 
         if(content.length() > 10000) {
             map.put("error_message", "代码长度不能超过10000");
+            return map;
+        }
+
+        QueryWrapper<Bot> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", user.getId());
+        if(botMapper.selectCount(queryWrapper) >= 10) {
+            map.put("error_message", "每个用户的bot数量不能超过10个");
             return map;
         }
 

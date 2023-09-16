@@ -297,6 +297,10 @@ const addbot = () => {
         success(resp) {
             // 当我们成功创建bot后关闭模态框
             if (resp.error_message === 'success') {
+                botadd.title = '';
+                botadd.description = '';
+                botadd.content = '';
+                botadd.error_message = '';
                 Modal.getInstance('#bot-create').hide();
                 getBots();
             } else {

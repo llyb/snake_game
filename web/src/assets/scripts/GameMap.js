@@ -62,24 +62,53 @@ export default class GameMap extends GameObject {
 
     // 键盘监听事件
     addEventListener_keys() {
-        this.ctx.canvas.focus(); // 使canvas聚焦
-        let d = -1;
-        this.ctx.canvas.addEventListener('keydown', (e) => {
-            if (e.key === 'w') d = 0;
-            else if (e.key === 'd') d = 1;
-            else if (e.key === 's') d = 2;
-            else if (e.key === 'a') d = 3;
+        if (this.store.state.record.is_record) {
+            // 说明当前是录像
+            const [snake0, snake1] = this.snakes;
+            const a_steps = this.store.state.record.a_steps;
+            const b_steps = this.store.state.record.b_steps;
+            const loser = this.store.state.record.record_loser;
+            console.log(loser);
+            let k = 0; // 记录当前走到哪一步了
+            // 每隔一段时间传入两条蛇的操作从而进行移动
+            const interval_id = setInterval(() => {
+                if (k >= a_steps.length - 1) {
+                    console.log(loser);
+                    // 说明走完了所有的操作
+                    if (loser === 'all' || loser === 'A') {
+                        snake0.status = 'die';
+                    }
+                    if (loser === 'all' || loser === 'B') {
+                        snake1.status = 'die';
+                    }
+                    clearInterval(interval_id); // 任务结束，清除该定时器
+                } else {
+                    snake0.set_direction(parseInt(a_steps[k]));
+                    snake1.set_direction(parseInt(b_steps[k]));
+                }
+                k++;
+            }, 300);
+            this.store.commit('set_record', false);
+        } else {
+            this.ctx.canvas.focus(); // 使canvas聚焦
+            let d = -1;
+            this.ctx.canvas.addEventListener('keydown', (e) => {
+                if (e.key === 'w') d = 0;
+                else if (e.key === 'd') d = 1;
+                else if (e.key === 's') d = 2;
+                else if (e.key === 'a') d = 3;
 
-            // 将当前用户的移动情况传递给自己的socket
-            if (d >= 0) {
-                this.store.state.pk.socket.send(
-                    JSON.stringify({
-                        event: 'move',
-                        direction: d,
-                    })
-                );
-            }
-        });
+                // 将当前用户的移动情况传递给自己的socket
+                if (d >= 0) {
+                    this.store.state.pk.socket.send(
+                        JSON.stringify({
+                            event: 'move',
+                            direction: d,
+                        })
+                    );
+                }
+            });
+        }
     }
 
     create_walls() {

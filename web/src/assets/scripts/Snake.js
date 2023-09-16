@@ -13,7 +13,7 @@ export default class Snake extends GameObject {
         this.cells = [new Cell(info.r, info.c)]; // 用于存储蛇的身体,先将蛇头放进去
         this.next_cell = null; // 下一步的目标
 
-        this.speed = 5; // 蛇移动的速度
+        this.speed = 5; // 蛇每秒移动5个格子
         this.direction = -1; // -1为没有指令，0123分别表示上右下左
         this.status = 'idle'; // 当前的状态为静止
 
