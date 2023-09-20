@@ -265,7 +265,7 @@ let botupdate = reactive({
 //从云端拉取Bot信息
 const getBots = () => {
     $.ajax({
-        url: 'http://localhost:3000/user/bot/getlist',
+        url: 'https://app3979.acapp.acwing.com.cn/api/user/bot/getlist/',
         type: 'get',
         headers: {
             Authorization: 'Bearer ' + store.state.user.token,
@@ -284,7 +284,7 @@ getBots();
 // 添加bot
 const addbot = () => {
     $.ajax({
-        url: 'http://localhost:3000/user/bot/add/',
+        url: 'https://app3979.acapp.acwing.com.cn/api/user/bot/add/',
         type: 'post',
         headers: {
             Authorization: 'Bearer ' + store.state.user.token,
@@ -316,7 +316,7 @@ const addbot = () => {
 // 删除bot
 const botdelete = (botId) => {
     $.ajax({
-        url: 'http://localhost:3000/user/bot/delete',
+        url: 'https://app3979.acapp.acwing.com.cn/api/user/bot/delete/',
         type: 'post',
         headers: {
             Authorization: 'Bearer ' + store.state.user.token,
@@ -337,7 +337,7 @@ const botdelete = (botId) => {
 const updatebot = (bot) => {
     console.log(botupdate.title + '\n' + botupdate.content + '\n' + botupdate.description + '\n' + bot.id);
     $.ajax({
-        url: 'http://localhost:3000/user/bot/update',
+        url: 'https://app3979.acapp.acwing.com.cn/api/user/bot/update/',
         type: 'post',
         headers: {
             Authorization: 'Bearer ' + store.state.user.token,

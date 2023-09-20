@@ -64,7 +64,7 @@ const click_page = (page) => {
         page = current_page - 1;
     }
 
-    const max_pages = parseInt(Math.ceil(total_users / 3));
+    const max_pages = parseInt(Math.ceil(total_users / 10));
 
     if (page >= 1 && page <= max_pages) {
         // 如果更新后的页码在有效范围内
@@ -74,7 +74,7 @@ const click_page = (page) => {
 
 const update_pages = () => {
     // 页码的显示
-    let max_pages = parseInt(Math.ceil(total_users / 3));
+    let max_pages = parseInt(Math.ceil(total_users / 10));
     let new_pages = [];
     for (let i = current_page - 1; i <= current_page + 1; i++) {
         if (i >= 1 && i <= max_pages) {
@@ -91,7 +91,7 @@ const pull_page = (page) => {
     // 从云端拉取当前页的对局记录
     current_page = page;
     $.ajax({
-        url: 'http://127.0.0.1:3000/get/ranklist/',
+        url: 'https://app3979.acapp.acwing.com.cn/api/get/ranklist/',
         data: {
             page,
         },

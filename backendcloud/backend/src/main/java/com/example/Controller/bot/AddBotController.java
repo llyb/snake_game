@@ -13,7 +13,7 @@ public class AddBotController {
     @Autowired
     private AddBotService addBotService;
 
-    @PostMapping("/user/bot/add/")
+    @PostMapping("/api/user/bot/add/")
     public Map<String, String> addbot(@RequestParam Map<String, String> data) {
         return addBotService.addbot(data);
     }

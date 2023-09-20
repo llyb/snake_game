@@ -36,8 +36,7 @@ export default {
         login(context, data) {
             // 用户登录的逻辑
             $.ajax({
-                // 不知道为什么路径后面一定要写/
-                url: 'http://localhost:3000/user/account/token/',
+                url: 'https://app3979.acapp.acwing.com.cn/api/user/account/token/',
                 type: 'post',
                 data: {
                     username: data.username,
@@ -60,7 +59,7 @@ export default {
         getinfo(context, data) {
             // 测试信息接口
             $.ajax({
-                url: 'http://localhost:3000/user/account/info/',
+                url: 'https://app3979.acapp.acwing.com.cn/api/user/account/info/',
                 type: 'get',
                 headers: {
                     Authorization: 'Bearer ' + context.state.token,

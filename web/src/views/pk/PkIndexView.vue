@@ -2,6 +2,18 @@
     <PlayGroundVue v-if="$store.state.pk.status === 'playing'" />
     <MatchGround v-if="$store.state.pk.status === 'matching'" />
     <ResultBoard v-if="$store.state.pk.loser !== 'none'" />
+    <div
+        v-if="parseInt($store.state.user.id) === parseInt($store.state.pk.a_id) && $store.state.pk.status === 'playing'"
+        class="user-location"
+    >
+        您出生在左下角
+    </div>
+    <div
+        v-if="parseInt($store.state.user.id) === parseInt($store.state.pk.b_id) && $store.state.pk.status === 'playing'"
+        class="user-location"
+    >
+        您出生在右上角
+    </div>
 </template>
 
 <script setup>
@@ -12,7 +24,7 @@ import { useStore } from 'vuex';
 import { onMounted, onUnmounted } from 'vue';
 
 const store = useStore();
-const socketUrl = `ws://127.0.0.1:3000/websocket/${store.state.user.token}`;
+const socketUrl = `wss://app3979.acapp.acwing.com.cn/websocket/${store.state.user.token}`;
 
 store.commit('updateLoser', 'none'); // 每次进入页面前都要清空之前的对局状态
 
@@ -82,4 +94,11 @@ onUnmounted(() => {
 });
 </script>
 
-<style></style>
+<style>
+div.user-location {
+    text-align: center;
+    color: white;
+    font-size: larger;
+    font-weight: 600;
+}
+</style>

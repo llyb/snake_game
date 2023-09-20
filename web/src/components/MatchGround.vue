@@ -64,7 +64,7 @@ const click_match_btn = () => {
 //从云端拉取Bot信息
 const getBots = () => {
     $.ajax({
-        url: 'http://localhost:3000/user/bot/getlist',
+        url: 'https://app3979.acapp.acwing.com.cn/api/user/bot/getlist/',
         type: 'get',
         headers: {
             Authorization: 'Bearer ' + store.state.user.token,

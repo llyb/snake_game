@@ -58,7 +58,7 @@ let error_message = ref('');
 const register = () => {
     // 这里不会涉及到对state状态的修改，所以直接调用Api即可
     $.ajax({
-        url: '127.0.0.1:3000:/user/account/register/',
+        url: 'https://app3979.acapp.acwing.com.cn/api/user/account/register/',
         type: 'post',
         data: {
             username: username.value,

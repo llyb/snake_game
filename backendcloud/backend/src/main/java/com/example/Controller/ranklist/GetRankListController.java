@@ -13,7 +13,7 @@ import java.util.Map;
 public class GetRankListController {
     @Autowired
     private GetRankListService rankListService;
-    @PostMapping("/get/ranklist/")
+    @PostMapping("/api/get/ranklist/")
     public JSONObject getRankList(@RequestParam Map<String, String> data) {
         Integer page = Integer.valueOf(data.get("page"));
         return rankListService.getRankList(page);

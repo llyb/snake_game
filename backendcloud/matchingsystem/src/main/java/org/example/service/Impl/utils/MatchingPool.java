@@ -73,7 +73,6 @@ public class MatchingPool extends Thread { // 这里实现对玩家进行匹配�
     }
 
     private void matchPlayers() { // 对玩家进行匹配，每次匹配一对
-        System.out.println("matchPlayers " + players.toString());
         // 优先匹配等待时间长的玩家，也就是在数组前面的玩家
         boolean[] used = new boolean[players.size()]; // 用于存储所有已经完成配对的玩家
         for (int i = 0; i < players.size(); i ++) {
