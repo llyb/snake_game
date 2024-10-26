@@ -144,9 +144,11 @@ export default class Snake extends GameObject {
     }
 
     update() {
+        // 先进行逻辑上的移动
         if (this.status === 'move') {
             this.update_move();
         }
+        // 将逻辑上的移动画出来
         this.render();
     }
 }

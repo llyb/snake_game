@@ -72,7 +72,6 @@ onMounted(() => {
             // 游戏结束
             const game = store.state.pk.gameObject;
             const [snake0, snake1] = game.snakes;
-            console.log(game.snakes);
             if (data.loser === 'all' || data.loser === 'A') {
                 snake0.status = 'die';
             }
@@ -86,7 +85,6 @@ onMounted(() => {
     };
 
     socket.onclose = () => {
-        console.log('disconnected!');
     };
 });
 
@@ -102,5 +100,8 @@ div.user-location {
     color: white;
     font-size: larger;
     font-weight: 600;
+    position: absolute;
+    bottom: 5vh;
+    width: 100%;
 }
 </style>

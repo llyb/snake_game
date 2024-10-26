@@ -155,10 +155,8 @@ public class WebSocketServer {
         JSONObject data = JSONObject.parseObject(message); // 将json字符串转化为json对象进而得到相关信息
         String event = data.getString("event"); // 将前端传来的数据进行解析
         if("start-matching".equals(event)) {
-            System.out.println(data.getInteger("bot_id"));
             startMatching(data.getInteger("bot_id"));
         } else if("move".equals(event)) {
-//            System.out.println(event + " " + data.getInteger("direction"));
             move(data.getInteger("direction"));
         } else if("stop-matching".equals(event)) {
             stopMatching();

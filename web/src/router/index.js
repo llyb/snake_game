@@ -8,6 +8,7 @@ import UserView from '@/views/user/account/userView.vue';
 import LoginView from '@/views/Login/loginView.vue';
 import RegisterView from '@/views/Register/registerView.vue';
 import RecordContentView from '@/views/record/RecordContentView.vue';
+import UserAccountWebReceiveCodeView from '@/views/user/account/UserAccountWebReceiveCodeView.vue';
 import store from '@/store';
 
 const routes = [
@@ -73,6 +74,14 @@ const routes = [
         component: UserBotIndexView,
         meta: {
             requestAuth: true,
+        },
+    },
+    {
+        path: '/user/account/acwing/web/receive_code/',
+        name: 'receive_code',
+        component: UserAccountWebReceiveCodeView,
+        meta: {
+            requestAuth: false,
         },
     },
     {

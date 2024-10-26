@@ -41,8 +41,11 @@ const restart = () => {
     width: 30vw;
     background-color: rgba(50, 50, 50, 0.5);
     position: absolute;
-    top: 30vh;
-    left: 35vw;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
 }
 div.result-board {
     text-align: center;
@@ -53,10 +56,9 @@ div.result-board {
     padding-top: 5vh;
 }
 div.result-board-btn {
-    padding-top: 5vh;
-    width: 50%;
-    display: flex;
-    margin: 0 auto;
+    padding-top: 2vh;
+    /* width: 50%;
+    margin: 0 auto; */
     text-align: center;
 }
 </style>

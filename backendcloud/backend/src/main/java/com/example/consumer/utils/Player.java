@@ -35,7 +35,7 @@ public class Player {
             x += dx[d];
             y += dy[d];
             res.add(new Cell(x, y));
-            if (!check_tail_increasing(++ step)) { // 如果蛇没有增长，删除最后一位
+            if (!check_tail_increasing(++ step)) { // 如果蛇没有增长，蛇尾要向前移动一位
                 res.remove(0);
             }
         }

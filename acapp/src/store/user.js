@@ -3,6 +3,7 @@ import $ from 'jquery';
 export default {
     // 定义用户的状态,用户的密码不进行存储，忘记密码只能重新更改密码
     state: {
+        AcWingOS: "AcWingOS",
         id: '',
         username: '',
         photo: '',

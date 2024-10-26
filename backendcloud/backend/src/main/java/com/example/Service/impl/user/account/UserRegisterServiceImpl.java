@@ -57,7 +57,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
         // 将当前用户插入数据库中
         String encodedPassword = passwordEncoder.encode(password);
         String photo = "https://cdn.acwing.com/media/user/profile/photo/138476_lg_fb32a51cd4.jpg";
-        User user = new User(null, username, encodedPassword, photo, 1500);
+        User user = new User(null, username, encodedPassword, photo, 1500, null);
         userMapper.insert(user);
 
         return map;

@@ -24,7 +24,7 @@ import { useStore } from 'vuex';
 import { onMounted, onUnmounted } from 'vue';
 
 const store = useStore();
-const socketUrl = `wss://app3979.acapp.acwing.com.cn/websocket/${store.state.user.token}`;
+const socketUrl = `wss://app6053.acapp.acwing.com.cn/websocket/${store.state.user.token}`;
 
 store.commit('updateLoser', 'none'); // 每次进入页面前都要清空之前的对局状态
 
@@ -41,7 +41,6 @@ onMounted(() => {
     socket = new WebSocket(socketUrl); // 创建WebSocket对象建立连接
 
     socket.onopen = () => {
-        console.log('connected!');
         store.commit('updateSocket', socket);
     };
 

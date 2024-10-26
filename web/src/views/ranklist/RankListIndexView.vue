@@ -91,7 +91,7 @@ const pull_page = (page) => {
     // 从云端拉取当前页的对局记录
     current_page = page;
     $.ajax({
-        url: 'https://app3979.acapp.acwing.com.cn/api/get/ranklist/',
+        url: 'https://app6053.acapp.acwing.com.cn/api/get/ranklist/',
         data: {
             page,
         },

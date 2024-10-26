@@ -68,12 +68,10 @@ export default class GameMap extends GameObject {
             const a_steps = this.store.state.record.a_steps;
             const b_steps = this.store.state.record.b_steps;
             const loser = this.store.state.record.record_loser;
-            console.log(loser);
             let k = 0; // 记录当前走到哪一步了
             // 每隔一段时间传入两条蛇的操作从而进行移动
             const interval_id = setInterval(() => {
                 if (k >= a_steps.length - 1) {
-                    console.log(loser);
                     // 说明走完了所有的操作
                     if (loser === 'all' || loser === 'A') {
                         snake0.status = 'die';

@@ -21,7 +21,7 @@ public class BotPool extends Thread {
     }
 
     private void consume(Bot bot) {
-        Consumer consumer = new Consumer();
+        Consumer consumer = new Consumer(); // 新开一个线程是为了控制执行时间
         consumer.startTimeout(2000, bot);
     }
 
@@ -40,7 +40,7 @@ public class BotPool extends Thread {
             } else {
                 Bot bot = bots.remove();
                 lock.unlock(); // 当没有读写冲突后及时进行解锁，因为下面的代码执行时间很长
-                consume(bot); // 对当前线程进行消耗
+                consume(bot); // 对当前bot进行消耗
             }
         }
     }

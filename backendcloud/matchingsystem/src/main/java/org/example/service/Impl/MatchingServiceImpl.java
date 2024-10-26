@@ -9,14 +9,12 @@ public class MatchingServiceImpl implements MatchingService {
     public final static MatchingPool matchingPool = new MatchingPool();
     @Override
     public String addPlayer(Integer userId, Integer bot_id, Integer rating) { // 在这里面调用
-        System.out.println(userId + ' ' + rating);
         matchingPool.addPlayer(userId, bot_id, rating);
         return "add success";
     }
 
     @Override
     public String removePlayer(Integer userId) {
-        System.out.println(userId);
         matchingPool.removePlayer(userId);
         return "remove success";
     }

@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import router from '@/router';
 
 export default {
     // 定义用户的状态,用户的密码不进行存储，忘记密码只能重新更改密码
@@ -36,7 +37,7 @@ export default {
         login(context, data) {
             // 用户登录的逻辑
             $.ajax({
-                url: 'https://app3979.acapp.acwing.com.cn/api/user/account/token/',
+                url: 'https://app6053.acapp.acwing.com.cn/api/user/account/token/',
                 type: 'post',
                 data: {
                     username: data.username,
@@ -49,17 +50,19 @@ export default {
                         context.commit('updateUserToken', resp.token); // 当用户登录成功后更新token
                         data.success();
                     } else {
-                        data.error();
+                        data.error(resp);
                     }
                 },
-                error() {},
+                error(resp) {
+                    data.error(resp);
+                },
             });
         },
 
         getinfo(context, data) {
             // 测试信息接口
             $.ajax({
-                url: 'https://app3979.acapp.acwing.com.cn/api/user/account/info/',
+                url: 'https://app6053.acapp.acwing.com.cn/api/user/account/info/',
                 type: 'get',
                 headers: {
                     Authorization: 'Bearer ' + context.state.token,
@@ -82,6 +85,7 @@ export default {
         logout(context) {
             localStorage.removeItem('jwt_token');
             context.commit('logout');
+            router.push({name: 'login'})
         },
     },
     modules: {},

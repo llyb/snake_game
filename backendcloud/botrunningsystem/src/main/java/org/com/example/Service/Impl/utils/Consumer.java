@@ -1,5 +1,6 @@
 package org.com.example.Service.Impl.utils;
 
+import org.com.example.utils.BotInterface;
 import org.joor.Reflect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,7 +28,7 @@ public class Consumer extends Thread { // 为了能够控制代码执行的时�
         this.bot = bot;
         this.start(); // 开启当前线程
 
-        // 当前线程最多执行timeouts
+        // 调用join的线程等待新创建线程最多timeout秒，或者是新线程在timeout秒前执行完成，这时当前线程才会被唤醒
         try {
             this.join(timeout);
         } catch (InterruptedException e) {
@@ -43,7 +44,7 @@ public class Consumer extends Thread { // 为了能够控制代码执行的时�
     }
 
     @Override
-    public void run() {
+    public void run() { // 新开一个线程消耗当前任务
         UUID uuid = UUID.randomUUID(); // 产生基本上不会相同的随机数
         String uid = uuid.toString().substring(0, 8); // 取这个东西的前8位就行
 
@@ -52,6 +53,7 @@ public class Consumer extends Thread { // 为了能够控制代码执行的时�
                 adduid(bot.getBotCode() ,uid)
         ).create().get();
 
+        // 使用文件进行传递而不是直接使用参数进行传递，方便我们在docker中进行操作
         File file = new File("input.txt");
         try (PrintWriter fout = new PrintWriter(file)) {
             fout.println(bot.getInput());

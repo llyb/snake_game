@@ -215,6 +215,7 @@ public class Game extends Thread {
         }
         return res.toString();
     }
+
     private void updateUserRating(Player player, Integer rating) {
         User user = WebSocketServer.userMapper.selectById(player.getId());
         user.setRating(rating);
@@ -332,7 +333,7 @@ public class Game extends Thread {
                     }
                     break;
                 }
-            } else { // 游戏结束
+            } else { // 有玩家没输入移动方向，游戏结束
                 lock.lock();
                 try {
                     this.status = "finished"; // 当前线程的游戏结束

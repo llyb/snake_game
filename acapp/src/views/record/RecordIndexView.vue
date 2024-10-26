@@ -1,7 +1,8 @@
 <template>
     <ContentField>
-        <div>
-            <table class="table table-striped table-hover" style="text-align: center">
+        <div class="game-table">
+            <div>
+                <table style="text-align: center">
                 <thead>
                     <tr>
                         <th>玩家A</th>
@@ -13,12 +14,12 @@
                 </thead>
                 <tbody>
                     <tr v-for="record in records" :key="record.record.id">
-                        <td>
+                        <td class="game-table-username">
                             <img :src="record.a_photo" alt="" />
                             &nbsp;
                             <span>{{ record.a_username }}</span>
                         </td>
-                        <td>
+                        <td class="game-table-username">
                             <img :src="record.b_photo" alt="" />
                             &nbsp;
                             <span>{{ record.b_username }}</span>
@@ -29,7 +30,6 @@
                             <button
                                 @click="open_record_content(record.record.id)"
                                 type="button"
-                                class="btn btn-info btn-sm"
                             >
                                 查看录像
                             </button>
@@ -37,24 +37,25 @@
                     </tr>
                 </tbody>
             </table>
-            <nav aria-label="Page navigation example" style="float: right">
-                <ul class="pagination">
-                    <li class="page-item" @click="click_page(-2)">
-                        <a class="page-link" href="#">上一页</a>
+            <nav>
+                <ul style="padding: 0;">
+                    <li class="game-page-item" @click="click_page(-2)">
+                        <a class="game-page-link" href="#">上一页</a>
                     </li>
                     <li
-                        :class="'page-item ' + page.is_active"
+                        :class="'game-page-item ' + page.is_active"
                         v-for="page in pages"
                         :key="page.number"
                         @click="click_page(page.number)"
                     >
-                        <a class="page-link" href="#">{{ page.number }}</a>
+                        <a class="game-page-link" href="#">{{ page.number }}</a>
                     </li>
-                    <li class="page-item" @click="click_page(-1)">
-                        <a class="page-link" href="#">下一页</a>
+                    <li class="game-page-item" @click="click_page(-1)">
+                        <a class="game-page-link" href="#">下一页</a>
                     </li>
                 </ul>
             </nav>
+            </div>
         </div>
     </ContentField>
 </template>
@@ -120,9 +121,6 @@ const pull_page = (page) => {
             total_records = resp.records_count;
             update_pages();
         },
-        error(resp) {
-            console.log(resp);
-        },
     });
 };
 
@@ -161,6 +159,7 @@ const open_record_content = (recordId) => {
                 b_steps: record.record.bsteps,
             });
             store.commit('update_record_loser', record.record.loser);
+            store.commit('updateRouterName', 'record_content'); // 跳转到录像页面
             break;
         }
     }
@@ -171,5 +170,55 @@ const open_record_content = (recordId) => {
 img {
     width: 5vh;
     border-radius: 50%;
+}
+div.game-table {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+div.game-table table {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+}
+.game-table-username {
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 7.5vw;
+}
+td {
+    width: 7.5vw;
+}
+th {
+    text-align: center;
+}
+.game-page-item {
+    background-color: white;
+    display: inline-block;
+    padding: 8px 12px;
+    border: 1px solid #dee2e6;
+    cursor: pointer;
+    user-select: none;
+}
+.game-page-item:hover {
+   background-color: #E9ECEF; 
+}
+.game-page-item.active {
+    background-color: #0d6efd;
+}
+.game-page-item.active > a {
+    color: white;
+}
+.game-page-link {
+    color: #0d6efd;
+    text-decoration: none;
+}
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>

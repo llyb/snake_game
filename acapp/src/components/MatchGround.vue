@@ -72,9 +72,6 @@ const getBots = () => {
         success(resp) {
             bots.value = resp;
         },
-        error(resp) {
-            console.log(resp);
-        },
     });
 };
 getBots();

@@ -28,6 +28,8 @@ public class UserInfoServiceImpl implements UserInfoService {
         map.put("username", user.getUsername());
         map.put("photo", user.getPhoto());
 
+        System.out.println(user.getUsername());
+
         return map;
     }
 }
