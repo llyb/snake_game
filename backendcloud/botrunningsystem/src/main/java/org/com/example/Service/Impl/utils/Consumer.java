@@ -1,6 +1,5 @@
 package org.com.example.Service.Impl.utils;
 
-import org.com.example.utils.BotInterface;
 import org.joor.Reflect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -22,13 +22,14 @@ public class UserLoginServiceImpl implements UserLoginService {
     @Override
     // 前端用户调用此接口进行登录
     public Map<String, String> getToken(String username, String password) {
-        // 将用户名和密码进行封装，里面存储的就是加密后的密码了
+        // 将用户名和密码进行封装成springSecurity认证对象
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username, password);
 
-        // 进行验证是否能进行登录，登录失败会自动处理
+        // 对用户身份进行验证（用户名，密码），进行验证是否能进行登录，登录失败会自动处理
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
 
+        // 验证成功，下面开始生成token
         // 将user取出来
         UserDetailImpl loginUser = (UserDetailImpl) authenticate.getPrincipal();
         User user = loginUser.getUser();

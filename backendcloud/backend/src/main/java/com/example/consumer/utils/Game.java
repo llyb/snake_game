@@ -209,9 +209,7 @@ public class Game extends Thread {
         for (int i = 0; i < rows; i ++) {
             for (int j = 0; j < cols; j ++) {
                 res.append(g[i][j]);
-                System.out.printf("%d ", g[i][j]);
             }
-            System.out.println("");
         }
         return res.toString();
     }

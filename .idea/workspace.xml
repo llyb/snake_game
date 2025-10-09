@@ -1,24 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="a8c56832-b056-45dd-beb7-a17ee04c8c0e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backendcloud/backend/src/main/java/com/example/consumer/WebSocketServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/backendcloud/backend/src/main/java/com/example/consumer/WebSocketServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backendcloud/backend/src/main/java/com/example/Service/impl/UserDetailServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backendcloud/backend/src/main/java/com/example/Service/impl/UserDetailServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backendcloud/backend/src/main/java/com/example/Service/impl/user/account/UserLoginServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backendcloud/backend/src/main/java/com/example/Service/impl/user/account/UserLoginServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backendcloud/backend/src/main/java/com/example/consumer/utils/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/backendcloud/backend/src/main/java/com/example/consumer/utils/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backendcloud/backend/src/main/java/com/example/consumer/utils/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/backendcloud/backend/src/main/java/com/example/consumer/utils/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backendcloud/botrunningsystem/src/main/java/org/com/example/Service/Impl/utils/BotPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/backendcloud/botrunningsystem/src/main/java/org/com/example/Service/Impl/utils/BotPool.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backendcloud/botrunningsystem/src/main/java/org/com/example/Service/Impl/utils/Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/backendcloud/botrunningsystem/src/main/java/org/com/example/Service/Impl/utils/Consumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backendcloud/botrunningsystem/src/main/java/org/com/example/utils/Bot.java" beforeDir="false" afterPath="$PROJECT_DIR$/backendcloud/botrunningsystem/src/main/java/org/com/example/utils/Bot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backendcloud/matchingsystem/src/main/java/org/example/service/Impl/MatchingServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backendcloud/matchingsystem/src/main/java/org/example/service/Impl/MatchingServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/assets/scripts/Snake.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/assets/scripts/Snake.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/components/MatchGround.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/components/MatchGround.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/store/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/store/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/views/Layout/LayoutView.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/views/Register/registerView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/views/Register/registerView.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/views/pk/PkIndexView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/views/pk/PkIndexView.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/views/ranklist/RankListIndexView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/views/ranklist/RankListIndexView.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/views/record/RecordIndexView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/views/record/RecordIndexView.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/views/user/bot/UserBotIndexView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/views/user/bot/UserBotIndexView.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,16 +29,20 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/lyb/Desktop/在线平台对战系统/backendcloud&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/lyb/Desktop/snake_game",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -59,6 +56,10 @@
       <workItem from="1716639815275" duration="209000" />
       <workItem from="1717117266151" duration="5000" />
       <workItem from="1725619394301" duration="17000" />
+      <workItem from="1738051976134" duration="60000" />
+      <workItem from="1738294872019" duration="1386000" />
+      <workItem from="1738334683693" duration="1172000" />
+      <workItem from="1739258659608" duration="10000" />
     </task>
     <servers />
   </component>

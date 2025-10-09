@@ -10,6 +10,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+/**
+ * springSecurity中获取数据库中用户信息，用户后面校验用户身份和token生成
+ */
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
     @Autowired
